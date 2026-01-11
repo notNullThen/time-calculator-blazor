@@ -10,13 +10,40 @@ resumeButton.addEventListener("click", resume);
 
 function handleReconnectStateChanged(event) {
     if (event.detail.state === "show") {
-        reconnectModal.showModal();
+        showReconnectModal();
     } else if (event.detail.state === "hide") {
-        reconnectModal.close();
+        closeReconnectModal();
     } else if (event.detail.state === "failed") {
         document.addEventListener("visibilitychange", retryWhenDocumentBecomesVisible);
     } else if (event.detail.state === "rejected") {
         location.reload();
+    }
+}
+
+function showReconnectModal() {
+    try {
+        if (typeof reconnectModal.showModal === "function") {
+            reconnectModal.showModal();
+        } else {
+            // Fallback for older Safari versions without <dialog> APIs
+            reconnectModal.setAttribute("open", "");
+            reconnectModal.classList.add("components-reconnect-fallback-open");
+        }
+    } catch {
+        // Never allow reconnect UI failures to break the app
+    }
+}
+
+function closeReconnectModal() {
+    try {
+        if (typeof reconnectModal.close === "function") {
+            reconnectModal.close();
+        } else {
+            reconnectModal.removeAttribute("open");
+            reconnectModal.classList.remove("components-reconnect-fallback-open");
+        }
+    } catch {
+        // ignore
     }
 }
 
@@ -36,7 +63,7 @@ async function retry() {
             if (!resumeSuccessful) {
                 location.reload();
             } else {
-                reconnectModal.close();
+                closeReconnectModal();
             }
         }
     } catch (err) {

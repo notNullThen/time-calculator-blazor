@@ -10,6 +10,26 @@ builder.Services.AddScoped<ThemeService>();
 
 var app = builder.Build();
 
+if (app.Environment.IsDevelopment())
+{
+    app.Use(
+        async (context, next) =>
+        {
+            if (context.Request.Path.StartsWithSegments("/_blazor"))
+            {
+                app.Logger.LogInformation(
+                    "/_blazor request: {Method} {Path} (Upgrade={Upgrade})",
+                    context.Request.Method,
+                    context.Request.Path,
+                    context.Request.Headers.Upgrade.ToString()
+                );
+            }
+
+            await next(context);
+        }
+    );
+}
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -18,7 +38,10 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
-app.UseHttpsRedirection();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
 app.UseAntiforgery();
 

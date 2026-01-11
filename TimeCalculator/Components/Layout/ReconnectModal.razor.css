@@ -32,19 +32,36 @@
     opacity: 0;
     transition: display 0.5s allow-discrete, overlay 0.5s allow-discrete;
     animation: components-reconnect-modal-fadeOutOpacity 0.5s both;
-    &[open]
-
-{
-    animation: components-reconnect-modal-slideUp 1.5s cubic-bezier(.05, .89, .25, 1.02) 0.3s, components-reconnect-modal-fadeInOpacity 0.5s ease-in-out 0.3s;
-    animation-fill-mode: both;
 }
 
+#components-reconnect-modal[open] {
+    animation: components-reconnect-modal-slideUp 1.5s cubic-bezier(.05, .89, .25, 1.02) 0.3s, components-reconnect-modal-fadeInOpacity 0.5s ease-in-out 0.3s;
+    animation-fill-mode: both;
 }
 
 #components-reconnect-modal::backdrop {
     background-color: rgba(0, 0, 0, 0.4);
     animation: components-reconnect-modal-fadeInOpacity 0.5s ease-in-out;
     opacity: 1;
+}
+
+/* Fallback for browsers without <dialog> support (older iOS Safari).
+   We simulate a modal overlay with fixed positioning. */
+#components-reconnect-modal.components-reconnect-fallback-open {
+    position: fixed;
+    left: 50%;
+    top: 20vh;
+    transform: translateX(-50%);
+    z-index: 10000;
+    opacity: 1;
+}
+
+#components-reconnect-modal.components-reconnect-fallback-open::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: -1;
 }
 
 html[data-theme="dark"] #components-reconnect-modal {
