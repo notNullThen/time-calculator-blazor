@@ -1,5 +1,4 @@
 ﻿@page "/"
-@rendermode InteractiveServer
 @using TimeCalculator.Base
 @using TimeCalculator.Base.Types
 
@@ -7,7 +6,6 @@
 
 <div class="d-flex align-items-center justify-content-between gap-3">
     <h1 class="mb-0">Time Calculator</h1>
-    <ThemeToggle />
 </div>
 
 <div class="mt-3 @(timeCalculator.DailyWorkHours <= 0 ? "mb-4" : "mb-3")">
@@ -147,6 +145,7 @@ else
     {
         timeCalculator.DailyWorkHours = _defaultDailyWorkHours;
         _isDailyWorkTimeInputVisible = false;
+        timeCalculator.CalculateTotalTime();
     }
 
     private void SetType(TimeType type)

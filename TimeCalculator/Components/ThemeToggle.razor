@@ -3,7 +3,7 @@
 @inject TimeCalculator.Services.ThemeService Theme
 
 <button type="button" class="btn btn-sm theme-toggle" @onclick="Toggle">
-    @ButtonText
+    @($"Dark / Light Theme - {ButtonText}")
 </button>
 
 @code {
