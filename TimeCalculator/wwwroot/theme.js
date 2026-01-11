@@ -29,6 +29,7 @@
   function applyTheme(theme) {
     currentTheme = theme === 'dark' ? 'dark' : 'light';
     document.documentElement.setAttribute('data-theme', currentTheme);
+    document.documentElement.setAttribute('data-bs-theme', currentTheme);
   }
 
   function getState() {

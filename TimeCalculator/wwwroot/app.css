@@ -90,6 +90,20 @@ html[data-theme="dark"] .form-control::placeholder {
         background-color: var(--tc-surface-2);
 }
 
+/* Time entry helpers */
+/* Applies to table rows; uses app theme tokens (light/dark). */
+/* Use higher specificity + set Bootstrap table vars so striping can't win. */
+.table tbody tr.tc-zero-time-row > * {
+    --bs-table-bg: var(--tc-surface-2);
+    --bs-table-accent-bg: var(--tc-surface-2);
+    background-color: var(--tc-surface-2) !important;
+}
+
+/* Back-compat: allow cell-level usage if needed. */
+.tc-zero-time {
+    background-color: var(--tc-surface-2) !important;
+}
+
 .content {
     padding-top: 1.1rem;
 }

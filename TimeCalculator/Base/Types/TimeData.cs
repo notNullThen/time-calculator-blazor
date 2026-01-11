@@ -6,6 +6,18 @@ public class TimeData
     public int Minutes { get; set; }
     public int Seconds { get; set; }
 
+    public bool IsZero => ToSeconds() == 0;
+
+    public string ToFormattedString()
+    {
+        if (IsZero)
+        {
+            return "❗️Zero time";
+        }
+
+        return ToString();
+    }
+
     public override string ToString()
     {
         var displayMinutes = Math.Abs((long)Minutes);
