@@ -1,0 +1,45 @@
+@implements IDisposable
+@inject IJSRuntime JS
+@inject TimeCalculator.Services.ThemeService Theme
+
+<button type="button" class="btn btn-sm theme-toggle" @onclick="Toggle">
+    @ButtonText
+</button>
+
+@code {
+    protected override void OnInitialized()
+    {
+        Theme.Changed += OnThemeChanged;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await Theme.InitializeAsync(JS);
+        }
+    }
+
+    private async Task Toggle()
+    {
+        await Theme.CycleModeAsync(JS);
+    }
+
+    private string ButtonText => Theme.CurrentMode switch
+    {
+        "system" => "System",
+        "dark" => "Dark",
+        "light" => "Light",
+        _ => Theme.CurrentMode
+    };
+
+    private void OnThemeChanged()
+    {
+        InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        Theme.Changed -= OnThemeChanged;
+    }
+}

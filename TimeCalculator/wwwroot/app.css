@@ -1,9 +1,37 @@
+/* Theme tokens */
+:root {
+    --tc-bg: #ffffff;
+    --tc-fg: #212529;
+    --tc-surface: #ffffff;
+    --tc-surface-2: #f7f7f7;
+    --tc-border: #d6d5d5;
+    --tc-link: #006bb7;
+    --tc-focus-ring: #258cfb;
+}
+
+html[data-theme="dark"] {
+    color-scheme: dark;
+    --tc-bg: #0f1115;
+    --tc-fg: #e8eaf0;
+    --tc-surface: #151a23;
+    --tc-surface-2: #1b2130;
+    --tc-border: #2a3142;
+    --tc-link: #7ab6ff;
+    --tc-focus-ring: #5aa2ff;
+}
+
+html {
+    color-scheme: light;
+}
+
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: var(--tc-bg);
+    color: var(--tc-fg);
 }
 
 a, .btn-link {
-    color: #006bb7;
+    color: var(--tc-link);
 }
 
 .btn-primary {
@@ -13,7 +41,53 @@ a, .btn-link {
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem var(--tc-bg), 0 0 0 0.25rem var(--tc-focus-ring);
+}
+
+/* Basic dark-mode bootstrap-ish fixes */
+html[data-theme="dark"] .form-control,
+html[data-theme="dark"] .form-select,
+html[data-theme="dark"] .form-check-input {
+        background-color: var(--tc-surface);
+        color: var(--tc-fg);
+        border-color: var(--tc-border);
+}
+
+/* Tables */
+.table {
+    --bs-table-color: var(--tc-fg);
+    --bs-table-border-color: var(--tc-border);
+}
+
+html[data-theme="dark"] .table {
+    --bs-table-bg: var(--tc-surface);
+    --bs-table-color: var(--tc-fg);
+    --bs-table-striped-bg: var(--tc-surface-2);
+    --bs-table-striped-color: var(--tc-fg);
+    --bs-table-active-bg: var(--tc-surface-2);
+    --bs-table-active-color: var(--tc-fg);
+    --bs-table-hover-bg: var(--tc-surface-2);
+    --bs-table-hover-color: var(--tc-fg);
+    --bs-table-border-color: var(--tc-border);
+}
+
+html[data-theme="dark"] .table thead th {
+    background-color: var(--tc-surface-2);
+}
+
+html[data-theme="dark"] .form-control::placeholder {
+        color: rgba(232, 234, 240, 0.65);
+}
+
+/* Theme toggle button */
+.theme-toggle {
+        color: var(--tc-fg);
+        border-color: var(--tc-border);
+        background-color: transparent;
+}
+
+.theme-toggle:hover {
+        background-color: var(--tc-surface-2);
 }
 
 .content {
