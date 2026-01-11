@@ -8,10 +8,10 @@
     <h1 class="mb-0">Time Calculator</h1>
 </div>
 
-<div class="mt-3 @(timeCalculator.DailyWorkHours <= 0 ? "mb-4" : "mb-3")">
+<div class="mt-3 mb-3">
     <div class="d-flex align-items-center gap-2">
         <div class="fw-semibold">
-            Your daily work: @($"{InitDailyWorkHours()} hours")
+            Your daily work: @($"{timeCalculator.DailyWorkHours} hours")
         </div>
 
         @if (!_isDailyWorkTimeInputVisible)
@@ -123,11 +123,12 @@ else
     private bool _isDailyWorkTimeInputVisible;
     private int _defaultDailyWorkHours = 8;
 
-    private int InitDailyWorkHours()
+    protected override void OnInitialized()
     {
-        timeCalculator.DailyWorkHours = timeCalculator.DailyWorkHours > 0 ? timeCalculator.DailyWorkHours :
-        _defaultDailyWorkHours;
-        return timeCalculator.DailyWorkHours;
+        if (timeCalculator.DailyWorkHours <= 0)
+        {
+            timeCalculator.DailyWorkHours = _defaultDailyWorkHours;
+        }
     }
 
     private void ShowDailyWorkTimeInput()
