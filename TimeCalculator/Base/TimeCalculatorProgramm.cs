@@ -4,19 +4,29 @@ namespace TimeCalculator.Base;
 
 public class TimeCalculatorProgramm
 {
-    public List<TimeEntry> TimeEntries = [];
+    public Dictionary<Guid, TimeEntry> TimeEntries = [];
 
     public TimeData TotalTime = new();
     public TimeData TotalWorkTime = new();
     public TimeData TotalTimeLeftToWork => GetTimeLeftToWork();
-    public TimeType SelectedTimeType = default;
-    public TimeData CurrentTimeEntry = new();
+    public TimeEntry CurrentTimeEntry = new();
 
     public int DailyWorkHours = 0;
 
-    public void RemoveTimeEntry(TimeEntry timeEntry)
+    public void SetType(TimeType type)
     {
-        TimeEntries.Remove(timeEntry);
+        CurrentTimeEntry.Type = type;
+    }
+
+    public void ReplaceEntryWithCurrent(Guid guid)
+    {
+        TimeEntries[guid] = CurrentTimeEntry.Clone();
+        CalculateTotalTime();
+    }
+
+    public void RemoveTimeEntry(Guid guid)
+    {
+        TimeEntries.Remove(guid);
         CalculateTotalTime();
     }
 
@@ -37,35 +47,25 @@ public class TimeCalculatorProgramm
 
     public void AddTimeEntry()
     {
-        TimeEntries.Add(
-            new()
-            {
-                Time = new()
-                {
-                    Hours = CurrentTimeEntry.Hours,
-                    Minutes = CurrentTimeEntry.Minutes,
-                    Seconds = CurrentTimeEntry.Seconds,
-                },
-                Type = SelectedTimeType,
-            }
-        );
+        TimeEntries.Add(Guid.NewGuid(), CurrentTimeEntry);
 
-        SelectedTimeType = default;
         CalculateTotalTime();
         CurrentTimeEntry = new();
     }
 
     public void SetRemainedTime()
     {
-        CurrentTimeEntry = TotalTimeLeftToWork.NegativeClone();
+        CurrentTimeEntry = new() { Time = TotalTimeLeftToWork.NegativeClone() };
     }
 
     public void CalculateTotalTime()
     {
-        var workTime = TimeEntries.Where(timeEntry => timeEntry.Type == TimeType.Work).ToList();
+        var workTimeEntries = TimeEntries
+            .Where(timeEntry => timeEntry.Value.Type == TimeType.Work)
+            .ToDictionary(pair => pair.Key, pair => pair.Value);
 
         TotalTime = SumTimeEntries(TimeEntries);
-        TotalWorkTime = SumTimeEntries(workTime);
+        TotalWorkTime = SumTimeEntries(workTimeEntries);
     }
 
     private TimeData GetTimeLeftToWork()
@@ -75,25 +75,15 @@ public class TimeCalculatorProgramm
         return timeLeft;
     }
 
-    private TimeData SumTimeEntries(List<TimeEntry> entries)
+    private TimeData SumTimeEntries(Dictionary<Guid, TimeEntry> entries)
     {
-        int totalSeconds = 0;
+        var totalTime = new TimeData();
 
         foreach (var entry in entries)
         {
-            totalSeconds += entry.Time.Hours * 3600 + entry.Time.Minutes * 60 + entry.Time.Seconds;
+            totalTime += entry.Value.Time;
         }
 
-        return GetTimeDataFromSeconds(totalSeconds);
-    }
-
-    private TimeData GetTimeDataFromSeconds(int totalSeconds)
-    {
-        return new TimeData
-        {
-            Hours = totalSeconds / 3600,
-            Minutes = totalSeconds % 3600 / 60,
-            Seconds = totalSeconds % 60,
-        };
+        return totalTime;
     }
 }
