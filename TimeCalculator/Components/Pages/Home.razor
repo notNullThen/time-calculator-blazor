@@ -72,7 +72,7 @@
 </div>
 
 <button class="btn btn-primary mt-3" @onclick="timeCalculator.AddTimeEntry">Add Time Entry</button>
-<button class="btn btn-outline-primary mt-3" @onclick="SetRemainedTime">Remained Time</button>
+<button class="btn btn-outline-primary mt-3" @onclick="timeCalculator.SetRemainedTime">Remained Time</button>
 
 <h2 class="mt-4">Time Entries</h2>
 
@@ -132,11 +132,6 @@ else
         {
             timeCalculator.DailyWorkHours = _defaultDailyWorkHours;
         }
-    }
-
-    private void SetRemainedTime()
-    {
-        timeCalculator.CalculateTotalTime();
     }
 
     private void ShowDailyWorkTimeInput()

@@ -52,6 +52,12 @@ public class TimeCalculatorProgramm
 
         SelectedTimeType = default;
         CalculateTotalTime();
+        CurrentTimeEntry = new();
+    }
+
+    public void SetRemainedTime()
+    {
+        CurrentTimeEntry = TotalTimeLeftToWork.NegativeClone();
     }
 
     public void CalculateTotalTime()
@@ -60,11 +66,6 @@ public class TimeCalculatorProgramm
 
         TotalTime = SumTimeEntries(TimeEntries);
         TotalWorkTime = SumTimeEntries(workTime);
-
-        CurrentTimeEntry =
-            SelectedTimeType == TimeType.Work
-                ? TotalTimeLeftToWork.NegativeClone()
-                : new TimeData();
     }
 
     private TimeData GetTimeLeftToWork()
