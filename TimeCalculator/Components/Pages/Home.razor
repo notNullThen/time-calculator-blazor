@@ -8,6 +8,36 @@
     <h1 class="mb-0">Time Calculator</h1>
 </div>
 
+<div class="mt-3 mb-3">
+    <div class="d-flex align-items-center gap-2">
+        <div class="fw-semibold">
+            Your daily work: @($"{timeCalculator.DailyWorkHours} hours")
+        </div>
+
+        @if (!_isDailyWorkTimeInputVisible)
+        {
+            <button class="btn @(timeCalculator.DailyWorkHours > 0 ? "btn-outline-primary" : "btn-primary")"
+                @onclick="@(timeCalculator.DailyWorkHours > 0 ? EditDailyWorkTime : ShowDailyWorkTimeInput)">
+                Edit
+            </button>
+        }
+    </div>
+
+    @if (_isDailyWorkTimeInputVisible)
+    {
+        <div class="d-flex gap-2 align-items-end mt-2">
+            <div class="d-flex flex-column">
+                <label class="form-label mb-1">Hours per day</label>
+                <input type="number" @bind="timeCalculator.DailyWorkHours" min="1" class="form-control"
+                    style="width: 140px;" />
+            </div>
+
+            <button class="btn btn-primary" disabled="@(timeCalculator.DailyWorkHours <= 0)"
+                @onclick="SetDailyWorkTime">Set</button>
+        </div>
+    }
+</div>
+
 <TimeEntryForm TimeCalculator="timeCalculator" OnChanged="OnCalculatorChanged" />
 
 <h2 class="mt-4">Time Entries</h2>
@@ -18,42 +48,7 @@
 }
 else
 {
-    <div class="table-responsive mt-3">
-        <table class="table table-striped align-middle mb-0">
-            <thead>
-                <tr>
-                    <th scope="col">Hours</th>
-                    <th scope="col">Minutes</th>
-                    <th scope="col">Seconds</th>
-                    <th scope="col">Formatted</th>
-                    <th scope="col">Type</th>
-                    <th scope="col" class="text-end">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var entry in timeCalculator.TimeEntries)
-                {
-                    var isZeroTime = entry.Value.Time.IsZero;
-
-                    <tr @key="entry" class="@(isZeroTime ? "tc-zero-time-row" : null)">
-                        <td class="@(isZeroTime ? "text-muted" : null)">@entry.Value.Time.Hours</td>
-                        <td class="@(isZeroTime ? "text-muted" : null)">@entry.Value.Time.Minutes</td>
-                        <td class="@(isZeroTime ? "text-muted" : null)">@entry.Value.Time.Seconds</td>
-                        <td class="@(isZeroTime ? "text-muted" : null)">@entry.Value.Time.ToFormattedString()</td>
-                        <td class="@(isZeroTime ? "text-muted" : null)">@entry.Value.Type</td>
-                        <td class="text-end">
-                            <button class="btn btn-primary btn-sm"
-                                @onclick="() => timeCalculator.ReplaceEntryWithCurrent(entry.Key)">Replace
-                            </button>
-                            <button class="btn btn-danger btn-sm"
-                                @onclick="() => timeCalculator.RemoveTimeEntry(entry.Key)">Remove
-                            </button>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+    <TimeEntriesTable timeCalculator="timeCalculator" OnChanged="OnCalculatorChanged" />
 }
 
 <h2>Total Work Time: @timeCalculator.TotalWorkTime.ToString()</h2>
@@ -61,7 +56,25 @@ else
 <h4>Total Time: @timeCalculator.TotalTime.ToString()</h4>
 
 @code {
-    private TimeCalculatorProgramm timeCalculator = new();
+    private TimeCalculatorProgramm timeCalculator = new()
+    { DailyWorkHours = 8 };
+    private bool _isDailyWorkTimeInputVisible;
+
+    private void EditDailyWorkTime()
+    {
+        _isDailyWorkTimeInputVisible = true;
+    }
+
+    private void SetDailyWorkTime()
+    {
+        _isDailyWorkTimeInputVisible = false;
+        timeCalculator.CalculateTotalTime();
+    }
+
+    private void ShowDailyWorkTimeInput()
+    {
+        _isDailyWorkTimeInputVisible = true;
+    }
 
     private Task OnCalculatorChanged()
     {

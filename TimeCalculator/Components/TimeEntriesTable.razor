@@ -1,0 +1,60 @@
+@using TimeCalculator.Base
+<div class="table-responsive mt-3">
+    <table class="table table-striped align-middle mb-0">
+        <thead>
+            <tr>
+                <th scope="col">Hours</th>
+                <th scope="col">Minutes</th>
+                <th scope="col">Seconds</th>
+                <th scope="col">Formatted</th>
+                <th scope="col">Type</th>
+                <th scope="col" class="text-end">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var entry in timeCalculator.TimeEntries)
+            {
+                var isZeroTime = entry.Value.Time.IsZero;
+
+                <tr @key="entry" class="@(isZeroTime ? "tc-zero-time-row" : null)">
+                    <td class="@(isZeroTime ? "text-muted" : null)">@entry.Value.Time.Hours</td>
+                    <td class="@(isZeroTime ? "text-muted" : null)">@entry.Value.Time.Minutes</td>
+                    <td class="@(isZeroTime ? "text-muted" : null)">@entry.Value.Time.Seconds</td>
+                    <td class="@(isZeroTime ? "text-muted" : null)">@entry.Value.Time.ToFormattedString()</td>
+                    <td class="@(isZeroTime ? "text-muted" : null)">@entry.Value.Type</td>
+                    <td class="text-end">
+                        <button class="btn btn-primary btn-sm" @onclick="() => ReplaceTimeEntry(entry.Key)">Replace
+                        </button>
+                        <button class="btn btn-danger btn-sm" @onclick="() => RemoveTimeEntry(entry.Key)">Remove
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public TimeCalculatorProgramm timeCalculator { get; set; } = new();
+
+    [Parameter]
+    public EventCallback OnChanged { get; set; }
+
+    private void ReplaceTimeEntry(Guid entryId)
+    {
+        timeCalculator.ReplaceEntryWithCurrent(entryId);
+        _ = NotifyChangedAsync();
+    }
+
+    private void RemoveTimeEntry(Guid entryId)
+    {
+        timeCalculator.RemoveTimeEntry(entryId);
+        _ = NotifyChangedAsync();
+    }
+
+    private Task NotifyChangedAsync()
+    {
+        return OnChanged.HasDelegate ? OnChanged.InvokeAsync() : Task.CompletedTask;
+    }
+}
