@@ -1,5 +1,7 @@
 # Time Calculator
 
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/notNullThen/time-calculator-blazor)
+
 A minimal time tracking application built with **.NET 10** and **Blazor Server**.
 
 > **Note:** The C# logic is implemented manually, while the frontend-related code (HTML, CSS, etc) is vibe-coded.
