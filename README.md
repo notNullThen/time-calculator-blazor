@@ -2,7 +2,7 @@
 
 A minimal time tracking application built with **.NET 10** and **Blazor Server**.
 
-> **Note:** The frontend is vibe-coded, while the backend is implemented manually.
+> **Note:** The C# logic is implemented manually, while the frontend-related code (HTML, CSS, etc) is vibe-coded.
 
 ## Features
 - Track daily work hours and tasks
