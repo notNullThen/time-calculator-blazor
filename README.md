@@ -4,6 +4,8 @@
 
 A minimal time tracking application built with **.NET 10** and **Blazor Server**.
 
+<img src="assets/screenshot.png" alt="App Screenshot" width="600" />
+
 > **Note:** The C# logic is implemented manually, while the frontend-related code (HTML, CSS, etc) is vibe-coded.
 
 ## Features
