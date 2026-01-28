@@ -17,12 +17,19 @@ A minimal time tracking application built with **.NET 10** and **Blazor Server**
 
 ## Run
 
-Standard run:
+### Run with Docker Compose:
+```bash
+docker compose up --build
+```
+
+The application will be available at `http://localhost:8080` by default. The `--build` flag ensures the Docker image is rebuilt with the latest changes from your local codebase.
+
+### Standard run:
 ```bash
 dotnet run --project TimeCalculator
 ```
 
-Run with network access (accessible from other devices):
+### Run with network access (accessible from other devices):
 ```bash
-dotnet run --project TimeCalculator --urls "http://0.0.0.0:5080"
+dotnet run --project TimeCalculator --urls "http://0.0.0.0:8080"
 ```
