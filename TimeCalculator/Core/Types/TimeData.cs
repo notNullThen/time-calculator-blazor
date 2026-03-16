@@ -1,4 +1,4 @@
-namespace TimeCalculator.Base.Types;
+namespace TimeCalculator.Core.Types;
 
 public class TimeData
 {

@@ -1,6 +1,6 @@
 ﻿@page "/"
-@using TimeCalculator.Base
-@using TimeCalculator.Base.Types
+@using TimeCalculator.Core
+@using TimeCalculator.Core.Types
 
 <PageTitle>Time Calculator</PageTitle>
 
@@ -18,7 +18,7 @@
             @if (!_isDailyWorkTimeInputVisible)
             {
                 <button class="btn @(timeCalculator.DailyWorkHours > 0 ? "btn-outline-primary" : "btn-primary")"
-                    @onclick="@(timeCalculator.DailyWorkHours > 0 ? EditDailyWorkTime : ShowDailyWorkTimeInput)">
+                        @onclick="@(timeCalculator.DailyWorkHours > 0 ? EditDailyWorkTime : ShowDailyWorkTimeInput)">
                     Edit
                 </button>
             }
@@ -30,16 +30,18 @@
                 <div class="d-flex flex-column">
                     <label class="form-label mb-1">Hours per day</label>
                     <input type="number" @bind="timeCalculator.DailyWorkHours" min="1" class="form-control"
-                        style="width: 140px;" />
+                           style="width: 140px;"/>
                 </div>
 
                 <button class="btn btn-primary" disabled="@(timeCalculator.DailyWorkHours <= 0)"
-                    @onclick="SetDailyWorkTime">Set</button>
+                        @onclick="SetDailyWorkTime">
+                    Set
+                </button>
             </div>
         }
     </div>
 
-    <TimeEntryForm TimeCalculator="timeCalculator" OnChanged="OnCalculatorChanged" />
+    <TimeEntryForm TimeCalculator="timeCalculator" OnChanged="OnCalculatorChanged"/>
 
     <h2 class="mt-4">Time Entries</h2>
 
@@ -49,7 +51,7 @@
     }
     else
     {
-        <TimeEntriesTable timeCalculator="timeCalculator" OnChanged="OnCalculatorChanged" />
+        <TimeEntriesTable timeCalculator="timeCalculator" OnChanged="OnCalculatorChanged"/>
     }
 
     <h2>Total Work Time: @timeCalculator.TotalWorkTime.ToString()</h2>
@@ -58,8 +60,10 @@
 </div>
 
 @code {
+
     private TimeCalculatorProgramm timeCalculator = new()
-    { DailyWorkHours = 8 };
+        { DailyWorkHours = 8 };
+
     private bool _isDailyWorkTimeInputVisible;
 
     private void EditDailyWorkTime()
@@ -83,4 +87,5 @@
         StateHasChanged();
         return Task.CompletedTask;
     }
+
 }

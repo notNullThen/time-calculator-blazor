@@ -1,6 +1,6 @@
-using TimeCalculator.Base.Types;
+using TimeCalculator.Core.Types;
 
-namespace TimeCalculator.Base;
+namespace TimeCalculator.Core;
 
 public class TimeCalculatorProgramm
 {
