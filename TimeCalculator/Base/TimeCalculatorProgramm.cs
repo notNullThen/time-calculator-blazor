@@ -30,21 +30,6 @@ public class TimeCalculatorProgramm
         CalculateTotalTime();
     }
 
-    public void SetHours(TimeData timeEntry, int hours)
-    {
-        timeEntry.Hours = hours;
-    }
-
-    public void SetMinutes(TimeData timeEntry, int minutes)
-    {
-        timeEntry.Minutes = minutes;
-    }
-
-    public void SetSeconds(TimeData timeEntry, int seconds)
-    {
-        timeEntry.Seconds = seconds;
-    }
-
     public void AddTimeEntry()
     {
         TimeEntries.Add(Guid.NewGuid(), CurrentTimeEntry);
