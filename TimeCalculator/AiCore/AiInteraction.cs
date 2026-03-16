@@ -1,4 +1,5 @@
 using AIOrchestrator.Core;
+using AIOrchestrator.Core.Types;
 
 using TimeCalculator.Core;
 
@@ -6,17 +7,19 @@ namespace TimeCalculator.AiCore;
 
 public class AiInteraction
 {
-    public AiManager AiManager;
+    public AiManager? AiManager { get; private set; }
 
     public string UserInput { get; set; }
 
     private AiAppFacade _aiFacade;
 
+    public event EventHandler<List<FunctionCallResponse>>? OnContextUpdated;
+
     public AiInteraction(TimeCalculatorProgramm timeCalculator)
     {
         _aiFacade = new AiAppFacade(timeCalculator);
-        AiManager = new(modelName: _modelName, appInstance: _aiFacade);
         UserInput = string.Empty;
+        Init();
     }
 
 
@@ -25,15 +28,27 @@ public class AiInteraction
 
     public async Task AskAsync()
     {
-        await AiManager.StartAsync(UserInput);
-        Reset();
+        await AiManager!.StartAsync(UserInput);
+        Init();
     }
 
-    public string GetContext() => AiManager.ContextHandler.GetContextJson();
+    public string GetContext() => AiManager!.ContextHandler.GetContextJson();
 
-    public void Reset()
+    public void Init()
     {
+        if (AiManager?.ContextHandler != null)
+        {
+            AiManager.ContextHandler.OnContextUpdated -= InternalOnContextUpdated;
+        }
+
         AiManager = new(modelName: _modelName, appInstance: _aiFacade);
+        AiManager.ContextHandler.OnContextUpdated += InternalOnContextUpdated;
         UserInput = string.Empty;
     }
+
+    private void InternalOnContextUpdated(object? sender, List<FunctionCallResponse> e)
+    {
+        OnContextUpdated?.Invoke(this, e);
+    }
 }
+

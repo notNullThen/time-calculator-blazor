@@ -72,7 +72,7 @@
     protected override void OnInitialized()
     {
         AiInteraction = new AiInteraction(TimeCalculator);
-        AiInteraction.AiManager.ContextHandler.OnContextUpdated += OnContextUpdated;
+        AiInteraction.OnContextUpdated += OnContextUpdated;
     }
 
     private void OnContextUpdated(object? sender, List<FunctionCallResponse> e)
