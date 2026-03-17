@@ -47,7 +47,7 @@
             <button class="btn btn-outline-primary" @onclick="SetRemainedTime">Remained</button>
         </div>
 
-        <hr class="my-0 opacity-10" />
+        <hr class="my-0 opacity-10"/>
 
         <!-- AI Assistant Group (Explain + Type nearby) -->
         <div class="d-flex flex-column gap-2">
@@ -78,6 +78,9 @@
     {
         AiInteraction = new AiInteraction(TimeCalculator);
         AiInteraction.OnContextUpdated += OnContextUpdated;
+
+// TODO: Remove after debug finished
+        AiInteraction.UserInput = "i was working today 3 hours and 55 mins, then I took a 43 mins break and then I worked all the remained time so overal working time was 8 hours";
     }
 
     private void OnContextUpdated(object? sender, List<FunctionCallResponse> e)
