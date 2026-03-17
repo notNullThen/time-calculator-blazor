@@ -15,15 +15,16 @@ public sealed class AiAppFacade(TimeCalculatorProgramm timeCalculator) : AiAppFa
     public void SetMinutes(int minutes) => timeCalculator.SetMinutes(minutes);
     public void SetSeconds(int seconds) => timeCalculator.SetSeconds(seconds);
     public void SetType(TimeType type) => timeCalculator.SetType(type);
-    public void AddTimeEntry() => timeCalculator.AddTimeEntry();
-    public void SetRemainedTime() => timeCalculator.SetRemainedTime();
+    public void WriteTimeEntryToTable() => timeCalculator.AddTimeEntry();
 
     public override AppDescription GetDescription() =>
     [
         new()
         {
-            Name = "SetHours",
-            Description = "Sets hours in current time entry.",
+            Name = nameof(SetHours),
+            Description = $@"
+Sets hours in current time entry. Set 0 if not specified in user request.
+",
             Parameters =
             [
                 new()
@@ -38,8 +39,10 @@ Format: 0, 1, 2, ... 23.
         },
         new()
         {
-            Name = "SetMinutes",
-            Description = "Set minutes in current time entry.",
+            Name = nameof(SetMinutes),
+            Description = $@"
+Set minutes in current time entry. Set 0 if not specified in user request.
+",
             Parameters =
             [
                 new()
@@ -54,8 +57,10 @@ Format: 0, 1, 2, ... 59.
         },
         new()
         {
-            Name = "SetSeconds",
-            Description = "Set minutes in current time entry.",
+            Name = nameof(SetSeconds),
+            Description = $@"
+Set seconds in current time entry. Set 0 if not specified in user request.
+",
             Parameters =
             [
                 new()
@@ -70,8 +75,8 @@ Format: 0, 1, 2, ... 59.
         },
         new()
         {
-            Name = "SetType",
-            Description = "Set type in current time entry.",
+            Name = nameof(SetType),
+            Description = "Set type in current time entry. Define type from the user request.",
             Parameters =
             [
                 new()
@@ -86,18 +91,10 @@ Format: ""Work"" or ""Break"".
         },
         new()
         {
-            Name = "AddTimeEntry",
+            Name = nameof(WriteTimeEntryToTable),
             Description = @$"
-Adds time entry to the list.
-Needs to be called each time after the time entry ({nameof(SetHours)}, {nameof(SetMinutes)}, {nameof(SetSeconds)} or {nameof(SetType)}) is set.
-",
-            Parameters = []
-        },
-        new()
-        {
-            Name = "SetRemainedTime",
-            Description = @"
-Sets the remained time in current time entry, so the working time is fulfilled.
+Adds the time entry to the list.
+You should call this function once after setting all the time entry parameters.
 ",
             Parameters = []
         }
