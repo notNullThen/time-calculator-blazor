@@ -30,6 +30,8 @@ public class AiInteraction
 
     public string GetContext() => AiManager!.ContextHandler.GetContextJson();
 
+    public string GetConstraints() => _aiFacade.GetConstraints();
+
     public void Init()
     {
         if (AiManager?.ContextHandler != null)

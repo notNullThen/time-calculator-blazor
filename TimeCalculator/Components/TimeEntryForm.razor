@@ -71,6 +71,20 @@
             <div id="ai-debug-out" style="white-space: pre-wrap; font-family: monospace; font-size: 0.8rem; padding: 5px; color: var(--tc-fg);">@AiInteraction.GetContext()</div>
         </div>
     </div>
+
+    <!-- AI Constraints Sidebar -->
+    <div class="d-flex flex-column flex-grow-1" style="max-width: 500px;">
+        <div class="d-flex justify-content-between align-items-center mb-1">
+            <label class="form-label mb-0">AI Constraints</label>
+            <button class="btn btn-outline-primary btn-sm"
+                    onclick="window.copyToClipboard('ai-constraints-out', this)">
+                Copy
+            </button>
+        </div>
+        <div class="form-control" style="height: 385px; overflow-y: auto; background-color: var(--tc-surface-2); border-color: var(--tc-border);">
+            <div id="ai-constraints-out" style="white-space: pre-wrap; font-family: monospace; font-size: 0.8rem; padding: 5px; color: var(--tc-fg);">@AiInteraction.GetConstraints()</div>
+        </div>
+    </div>
 </div>
 
 @code {
