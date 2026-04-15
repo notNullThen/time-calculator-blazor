@@ -1,24 +1,20 @@
 # AI Time Manager
 
-> **Architecture Note:** I intentionally use multiple fine-grained functions to achieve the goal instead of a lower number of functions. This demonstrates the [AIOrchestrator NuGet package](https://github.com/notNullThen/AIOrchestratorDotNET) ability to orchestrate complex logic and execute multi-step sequences.
+> **Architecture Note:** I intentionally use multiple fine-grained functions to achieve the goal instead of a lower number of functions. This demonstrates the [AIOrchestrator NuGet package](https://www.nuget.org/packages/AIOrchestrator) ability to orchestrate complex logic and execute multi-step sequences.
 
 ### A basic concept of Time Data Management application with **AI assistance** functionality built with **.NET 10** and **Blazor**.
 
 Runs on Ollama - gemma4:e2b.
 
-### Uses own developed [AIOrchestrator NuGet package](https://github.com/notNullThen/AIOrchestratorDotNET).
+### Uses own developed [AIOrchestrator NuGet package](https://www.nuget.org/packages/AIOrchestrator).
 
 <img src="assets/screenshot.png" alt="App Screenshot" width="600" />
 
-> **Note:** The C# logic is implemented manually, while the frontend-related code (HTML, CSS, etc) is vibe-coded. The AI Orchestration is powered by the own developed [AIOrchestrator NuGet package](https://github.com/notNullThen/AIOrchestratorDotNET).
+> **Note:** The C# logic is implemented manually, while the frontend-related code (HTML, CSS, etc) is vibe-coded. The AI Orchestration is powered by the own developed [AIOrchestrator NuGet package](https://www.nuget.org/packages/AIOrchestrator).
 
 The web application processes human input and fills the time data.
 
-[AIOrchestrator](https://github.com/notNullThen/AIOrchestratorDotNET) has access to `SetHours(int)`, `SetMinutes(int)`, `SetSeconds(int)`, `SetType(Work/Break)`, `SetRemainedTime()` and `AddTimeEntry()` methods.
-
-## Prerequisites
-
-Before running the application, ensure you have the [AIOrchestrator NuGet package](https://github.com/notNullThen/AIOrchestratorDotNET) built and available in your **Local Feed**.
+[AIOrchestrator](https://www.nuget.org/packages/AIOrchestrator) has access to `SetHours(int)`, `SetMinutes(int)`, `SetSeconds(int)`, `SetType(Work/Break)`, `SetRemainedTime()` and `AddTimeEntry()` methods.
 
 ## AI Assistant Setup
 
