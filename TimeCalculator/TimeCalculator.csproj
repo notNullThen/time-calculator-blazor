@@ -5,8 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="AIOrchestrator" Version="1.0.1" />
+    <PackageReference Include="AIOrchestrator" Version="0.1.0" />
   </ItemGroup>
 </Project>
