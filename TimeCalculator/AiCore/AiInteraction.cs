@@ -39,7 +39,11 @@ public class AiInteraction
             AiManager.ContextHandler.OnContextUpdated -= InternalOnContextUpdated;
         }
 
-        AiManager = new(modelName: ModelName, appInstance: _aiFacade);
+        AiManager = new(
+            modelName: ModelName,
+            appInstance: _aiFacade,
+            options: new() { Temperature = 0.7f }
+        );
         AiManager.ContextHandler.OnContextUpdated += InternalOnContextUpdated;
         UserInput = string.Empty;
     }
